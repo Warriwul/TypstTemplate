@@ -5,15 +5,37 @@
   title: "Untitled",
   subtitle: "",
   subsubtitle: "",
-  author: "Anonymous",
+  author: "Anonymous",  // string or array of strings
   publisher: "",
   year: "",
   show-outline: true,
   doc-type: "book",  // "book" or "paper"
-  affiliation: "",  // for academic papers
+  affiliation: "",  // for academic papers (string or array of strings matching authors)
   abstract: "",  // for academic papers
   body,
 ) = {
+  // Helper function to format authors
+  #let format-authors(authors, affiliations: "") = {
+    let author-list = if type(authors) == "array" { authors } else { (authors,) }
+    let affil-list = if type(affiliations) == "array" { affiliations } else if affiliations != "" { (affiliations,) } else { () }
+    
+    if doc-type == "book" {
+      author-list.join(" and ")
+    } else {
+      // For papers, format with affiliations
+      let formatted = ()
+      for (i, auth) in author-list.enumerate() {
+        let auth-text = if i < affil-list.len() and affil-list.at(i) != "" {
+          [#auth #super[#(i + 1)]]
+        } else {
+          auth
+        }
+        formatted.push(auth-text)
+      }
+      formatted.join(", ")
+    }
+  }
+  
   // Set page and text properties
   set page(
     paper: "a4",
@@ -49,7 +71,7 @@
       
       #v(1.5em)
       
-      #text(size: 14pt)[by #author]
+      #text(size: 14pt)[by #format-authors(author)]
       
       #if publisher != "" [
         #v(0.5em)
@@ -89,11 +111,17 @@
       
       #v(0.8em)
       
-      #text(size: 11pt)[#author]
+      #text(size: 11pt)[#format-authors(author, affiliations: affiliation)]
       
-      #if affiliation != "" [
-        #v(0.2em)
-        #text(size: 10pt, style: "italic")[#affiliation]
+      // Display affiliations as footnotes if present
+      #let affil-list = if type(affiliation) == "array" { affiliation } else if affiliation != "" { (affiliation,) } else { () }
+      #if affil-list.len() > 0 [
+        #v(0.3em)
+        #for (i, affil) in affil-list.enumerate() {
+          if affil != "" [
+            #text(size: 9pt, style: "italic")[#super[#(i + 1)] #affil] #linebreak()
+          ]
+        }
       ]
       
       #if year != "" [
