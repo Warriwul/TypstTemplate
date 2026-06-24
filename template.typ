@@ -3,8 +3,11 @@
 
 #let book-template(
   title: "Untitled",
+  subtitle: "",
+  subsubtitle: "",
   author: "Anonymous",
-  date: "",
+  publisher: "",
+  year: "",
   show-outline: true,
   body,
 ) = {
@@ -28,13 +31,30 @@
   align(center + horizon)[
     #text(size: 28pt, weight: "bold")[#title]
     
-    #v(1em)
+    #if subtitle != "" [
+      #v(0.5em)
+      #text(size: 18pt, weight: "semibold")[#subtitle]
+    ]
+    
+    #if subsubtitle != "" [
+      #v(0.3em)
+      #text(size: 14pt)[#subsubtitle]
+    ]
+    
+    #v(1.5em)
     
     #text(size: 14pt)[by #author]
     
+    #if publisher != "" [
+      #v(0.5em)
+      #text(size: 11pt)[#publisher]
+    ]
+    
     #v(2em)
     
-    #text(size: 11pt, style: "italic")[#date]
+    #if year != "" [
+      #text(size: 11pt, style: "italic")[#year]
+    ]
   ]
 
   // Page break after title
