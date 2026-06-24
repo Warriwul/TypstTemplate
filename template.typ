@@ -5,6 +5,7 @@
   title: "Untitled",
   author: "Anonymous",
   date: "",
+  show-outline: true,
   body,
 ) = {
   // Set page and text properties
@@ -39,13 +40,15 @@
   // Page break after title
   pagebreak()
 
-  // Table of contents
-  outline(
-    title: "Contents",
-    indent: auto,
-  )
+  // Table of contents (optional)
+  if show-outline {
+    outline(
+      title: "Contents",
+      indent: auto,
+    )
 
-  pagebreak()
+    pagebreak()
+  }
 
   // Main content
   set par(justify: true)
