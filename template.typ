@@ -12,12 +12,12 @@
   doc-type: "book",  // "book" or "paper"
   affiliation: "",  // for academic papers (string or array of strings matching authors)
   abstract: "",  // for academic papers
-  text-font: "Linux Libertine",  // font for body text
-  math-font: "New Computer Modern Math",  // font for mathematical expressions
+  text-font: "Lato",  // font for body text
+  math-font: "Lete Sans Math",  // font for mathematical expressions
   body,
 ) = {
   // Helper function to format authors
-  #let format-authors(authors, affiliations: "") = {
+  let format-authors(authors, affiliations: "") = {
     let author-list = if type(authors) == "array" { authors } else { (authors,) }
     let affil-list = if type(affiliations) == "array" { affiliations } else if affiliations != "" { (affiliations,) } else { () }
     
@@ -49,7 +49,6 @@
   set text(
     font: text-font,
     size: 12pt,
-    leading: 1.6em,
   )
 
   set math.equation(numbering: "(1)")
@@ -58,8 +57,8 @@
 
   // Set math font
   show math.equation: set text(font: math-font)
-  show math.display: set text(font: math-font)
-  show math.inline: set text(font: math-font)
+  //show math.display: set text(font: math-font)
+  //show math.inline: set text(font: math-font)
 
   set heading(numbering: "1.")
 
@@ -141,7 +140,7 @@
       ]
     ]
 
-    #v(1em)
+    v(1em)
 
     // Abstract (optional)
     if abstract != "" [
