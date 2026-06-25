@@ -12,6 +12,8 @@
   doc-type: "book",  // "book" or "paper"
   affiliation: "",  // for academic papers (string or array of strings matching authors)
   abstract: "",  // for academic papers
+  text-font: "Linux Libertine",  // font for body text
+  math-font: "New Computer Modern Math",  // font for mathematical expressions
   body,
 ) = {
   // Helper function to format authors
@@ -45,10 +47,19 @@
   )
 
   set text(
-    font: "Linux Libertine",
+    font: text-font,
     size: 12pt,
     leading: 1.6em,
   )
+
+  set math.equation(numbering: "(1)")
+  set math.vec(delim: "[")
+  set math.mat(delim: "[")
+
+  // Set math font
+  show math.equation: set text(font: math-font)
+  show math.display: set text(font: math-font)
+  show math.inline: set text(font: math-font)
 
   set heading(numbering: "1.")
 
